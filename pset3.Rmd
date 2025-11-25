@@ -1,0 +1,105 @@
+---
+title: "Math for Data Science: Problem Set 3"
+output: pdf_document
+author: "GROUP_MEMBERS_NAMES" 
+date: "2025-24-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Due Date:** Wednesday, December 3 by the end of the day (23:59).
+
+**Instructions:** Please submit one solution set per group and include your group members' names at the top. Please write your solutions within this Rmd file, under the relevant question. Please submit the knitted output as a pdf. Make sure to show all code you used to arrive at the answer. However, please provide a brief, clear answer to every question rather than making us infer it from your output, and please avoid printing unnecessary output.
+
+## 1. More Cat Compression
+
+I have another cat named Lev. He was upset that Laszlo got to be in my course materials and he didn't. In this exercise we will explain to Lev why my initial choice of Laszlo was nothing personal.
+
+![My other cat, Lev.](lev.jpg){#id .class width="200"}
+
+a.  Load the image of Lev. Extract its red, green, and blue matrices and store them as separate objects called `r`, `g`, and `b`. Center the blue matrix and compute its variance-covariance matrix. What is the dimensionality of this variance-covariance matrix and why?
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+b.  Find the total variance of the centered blue matrix for this image. Compare this to the total variance of the centered blue matrix for Laszlo.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+c.  Use the `eigen` command to get the eigendecomposition of the blue variance-covariance matrix for Lev. Multiply the centered blue data matrix by the eigenvector corresponding to the largest eigenvalue to get the first principal component. Compute its variance.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+d.  Use the answers to the previous two questions to compute the proportion of variance explained for Lev's first principal component. Check your answer against a scree plot produced by the `fviz_eig` command.[^1] Compare to what we saw for Laszlo in the lab.
+
+[^1]: If they are similar up to the second decimal place, that's good enough.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+e.  Now compute Lev's second principal component. Compute the covariance of the first principal component with the second.[^2] Is this what you expected? Comment briefly.
+
+[^2]: You can round to 10 decimal places.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+f.  Now let's run PCA on Lev's `r`, `g`, and `b` matrices using the `prcomp` function with the options `center=FALSE` and `scale.=FALSE`.[^3] Combine these objects into a list. Now, looping over a handful of numbers of principal components, reconstitute images of Lev as we did in your lab. How many principal components does it take to start to recognize Lev as a cat?
+
+[^3]: Scaling and centering is desirable when your variables are on different scales, but in this case it messes up the colors.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+g.  Using what you learned from parts (b), (d), and (f) above, explain why Lev requires more principal components to be minimally represented than Laszlo, despite being equally beautiful.
+
+## 2. Penalized Regression
+
+\newcommand{\m}[1]{\mathbf{#1}}
+
+We will derive the estimator for ridge regression, which is one of several *penalized regression* methods.[^4] The process we will follow is very similar to the standard regression estimator we derived in your lab, but with a small change to the loss function. Rather than minimizing the sum of squared errors, we will minimize the sum of squared errors subject to a constraint:
+
+[^4]: See p. 237-244 of ISL.
+
+$$  ||\beta||_2^2 \leq s $$
+
+where $s$ is just some constant chosen by the analyst. Recall that $||\beta||_2^2$ is the squared $L_2$ norm of the $\beta$ vector.[^5] This question will build on the concepts and data in the lab, so please revisit those materials if anything here is unclear.
+
+[^5]: Also known as the Euclidian norm.
+
+a.  Write down the Lagrangian for this constrained minimization problem. Please use matrix notation (including for the $L_2$ norm).
+
+b.  Take the first derivative of the Lagrangian with respect to $\beta$ and set it equal to $\mathbf{0}$ to get the first order condition. (If you're feeling retro, you can use the \href{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}{Matrix Cookbook} to help you.) Solve for $\hat{\beta}$.
+
+c.  Compare your answer to the standard linear regression estimator. Under what condition are they the same?
+
+d.  Using the same `BostonHousing` dataset and the same set of variables from the lab, compute the ridge regression $\hat{\beta}$ with the equation you found in part (b) above. First standardize your $\mathbf{X}$ matrix using the `scale()` function in `R`. Use the `glmnet()` function in the `glmnet` package to check your answer.[^6]
+
+[^6]: Note that `glmnet`'s `lambda` parameter corresponds to your $\frac{\lambda}{N}$, where $N$ is the number of rows of your data. Also, your estimates may differ slightly from `glmnet`'s, at around the second decimal place. That's alright; this is likely due to `glmnet`'s optimization algorithm. It's computationally expensive to invert large matrices so `glmnet` is probably taking some more efficient but (slightly) less precise approach.
+
+```{r, echo = TRUE, include = TRUE}
+
+```
+
+e.  For the sequence of lambdas below, make a plot with `lambda_seq` on the $x$-axis (increasing from 0 to 100) and the estimated $\beta$ coefficients for per capita crime rate in the town (in blue), proximity to the Charles River (in red), and nitric oxides concentration (in green) on the $y$-axis. Use `geom_line` to plot the coefficients and add a black horizontal line at $y=0$. Label your axes and include a legend.
+
+```{r, echo = FALSE, include = TRUE}
+lambda_seq <- c(10^seq(2, -1, by = -.1), 0)
+
+```
+
+f.  Discussion:
+
+-   Based on your plot above, explain why ridge is one of a number of so-called "shrinkage" estimators.
+-   Tie this back to the constrained optimization problem you solved to obtain the ridge regression $\hat{\beta}$. Can you see how a larger value of $\lambda$ (or equivalently a small value of $s$) corresponds to greater shrinkage?
+-   You will learn more about this class of estimators and their virtues next semester, but do you have any intuitions as to when and why they might be desirable?
