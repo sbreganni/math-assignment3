@@ -1,8 +1,11 @@
 ---
 title: "Math for Data Science: Problem Set 3"
 output: pdf_document
-author: "GROUP_MEMBERS_NAMES" 
+author: "Sofia Breganni, David Moth, Adarsh Tripathi" 
 date: "2025-24-11"
+header-includes:
+  - \usepackage{tcolorbox}
+  - \newtcolorbox{answerbox}{colback=gray!15, colframe=black!50, arc=2mm, boxrule=0.5pt, left=3mm, right=3mm, top=3mm, bottom=3mm}
 ---
 
 ```{r setup, include=FALSE}
@@ -101,5 +104,28 @@ lambda_seq <- c(10^seq(2, -1, by = -.1), 0)
 f.  Discussion:
 
 -   Based on your plot above, explain why ridge is one of a number of so-called "shrinkage" estimators.
+
+    ```{=latex}
+    \begin{answerbox}
+    Your boxed content goes here.
+    You can put text, Markdown, equations, etc.
+    \end{answerbox}
+    ```
+
 -   Tie this back to the constrained optimization problem you solved to obtain the ridge regression $\hat{\beta}$. Can you see how a larger value of $\lambda$ (or equivalently a small value of $s$) corresponds to greater shrinkage?
+
+    ```{=latex}
+    \begin{answerbox}
+    Your boxed content goes here.
+    You can put text, Markdown, equations, etc.
+    \end{answerbox}
+    ```
+
 -   You will learn more about this class of estimators and their virtues next semester, but do you have any intuitions as to when and why they might be desirable?
+
+    ```{=latex}
+    \begin{answerbox}
+    Your boxed content goes here.
+    You can put text, Markdown, equations, etc.
+    \end{answerbox}
+    ```
