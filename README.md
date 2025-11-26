@@ -2,7 +2,7 @@
 
 Hello guys! welcome to the assignment 3 repository!
 
-Please create a fork of this repository on your GitHub to avoid any merging problems :) I think that was the issue I ran into with my group last time!
+*Please create a fork of this repository on your GitHub to avoid any merging problems :) I think that was the issue I ran into with my group last time!*
 
 ## Content:
 
@@ -11,4 +11,4 @@ Please create a fork of this repository on your GitHub to avoid any merging prob
 
 ### Deadlines:
 
--   The assignment is due next **Thursday (03/12)** end of day
+-   The assignment is due next **Wednesday (03/12)** end of day
