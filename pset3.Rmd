@@ -6,9 +6,9 @@ output:
   html_document:
     df_print: paged
 header-includes:
-- \usepackage{tcolorbox}
-- \newtcolorbox{answerbox}{colback=gray!15, colframe=black!50, arc=2mm, boxrule=0.5pt,
-  left=3mm, right=3mm, top=3mm, bottom=3mm}
+  - \usepackage{amsmath}
+  - \usepackage{tcolorbox}
+  - \newtcolorbox{answerbox}{colback=gray!15, colframe=black!50, arc=2mm, boxrule=0.5pt, left=3mm, right=3mm, top=3mm, bottom=3mm}
 ---
 
 ```{r setup, include=FALSE}
@@ -216,7 +216,61 @@ where $s$ is just some constant chosen by the analyst. Recall that $||\beta||_2^
 
 a.  Write down the Lagrangian for this constrained minimization problem. Please use matrix notation (including for the $L_2$ norm).
 
+```{=latex}
+\begin{answerbox}
+    We want to minimize the sum of squared residuals:
+    \begin{itemize}
+        \item $\min\limits_{\beta} \;||y - \mathbf{X}\beta||_2^2$
+        \item Where $||y - \mathbf{X}\beta||_2^2 = \sum_{i=1}^n(y_i - (\mathbf{X}\beta)_i)^2 = (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$
+    \end{itemize}
+
+    With an $L_2$ norm constraint:
+    \begin{itemize}
+        \item The $L_2^2$ norm will be: $||\beta||_2^2 = \sum_{i=1}^p\beta^2 = \boldsymbol{\beta^T\beta}$
+        \item And the constraint function: $g(\beta) = \boldsymbol{\beta^T\beta}-s$
+    \end{itemize}
+
+    \[
+        \mathcal{L}(\boldsymbol{\beta}, \lambda) = (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta}) + \lambda (\boldsymbol{\beta^T\beta}-s)
+    \]
+\end{answerbox}
+```
+
 b.  Take the first derivative of the Lagrangian with respect to $\beta$ and set it equal to $\mathbf{0}$ to get the first order condition. (If you're feeling retro, you can use the \href{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}{Matrix Cookbook} to help you.) Solve for $\hat{\beta}$.
+
+```{=latex}
+\begin{answerbox}
+Solving the derivative step-by-step:
+    \begin{itemize}
+        \item Derivative of $(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta}) = \mathbf{y}^T \mathbf{y} - 2\mathbf{y}^TX\boldsymbol{\beta} + \boldsymbol{\beta}^T X^T X \boldsymbol{\beta}$
+        \[
+        \frac{d}{d\beta}(\mathbf{y}^T \mathbf{y} - 2\mathbf{y}^TX\boldsymbol{\beta} + \boldsymbol{\beta}^T X^T X \boldsymbol{\beta}) = - 2X^T\mathbf{y} + 2 X^T X \boldsymbol{\beta} 
+        \]
+        \item Derivative of $\lambda (\boldsymbol{\beta^T\beta}-s)$
+        \[
+        \frac{d}{d\beta}\lambda (\boldsymbol{\beta^T\beta}-s) = \lambda 2 \boldsymbol{\beta}
+        \]
+        \item Therefore:
+        \[
+        \frac{d\mathcal{L}(\boldsymbol{\beta}, \lambda)}{d\beta} = - 2X^T\mathbf{y} + 2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta}
+        \]
+    \end{itemize}
+    
+    
+Setting the derivative = 0 and solving for $\hat{\beta}$:
+    \begin{align*}
+        - 2X^T\mathbf{y} + 2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
+        &= \mathbf{0}\\
+        2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
+        &= 2X^T\mathbf{y}\\
+        (X^T X + \lambda I) \boldsymbol{\beta}
+        &= X^T\mathbf{y}\\
+        \hat{\boldsymbol{\beta}}
+        &= (X^T X + \lambda I)^{-1}(X^T\mathbf{y})
+    \end{align*}
+    
+\end{answerbox}
+```
 
 c.  Compare your answer to the standard linear regression estimator. Under what condition are they the same?
 
