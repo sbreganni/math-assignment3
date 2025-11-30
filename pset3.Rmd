@@ -351,6 +351,7 @@ beta_long <- beta_df[, c("crim", "chas", "nox", "lambda")] |>
 
 ggplot(beta_long, aes(x = lambda, y = coefficient, color = variable)) +
   geom_line() +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.5) +
   scale_color_manual(values = c(crim = "blue",
                                 chas = "red",
                                 nox = "green")) +
