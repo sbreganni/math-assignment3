@@ -251,21 +251,21 @@ b.  Take the first derivative of the Lagrangian with respect to $\beta$ and set 
         \]
         \item Therefore:
         \[
-        \frac{d\mathcal{L}(\boldsymbol{\beta}, \lambda)}{d\beta} = - 2X^T\mathbf{y} + 2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta}
+        \frac{d\mathcal{L}(\boldsymbol{\beta}, \lambda)}{d\beta} = - 2\mathbf{X}^T\mathbf{y} + 2 \mathbf{X}^T \mathbf{X} \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta}
         \]
     \end{itemize}
 
     Setting the derivative = 0 and solving for $\hat{\beta}$:
 
     \begin{align*}
-        - 2X^T\mathbf{y} + 2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
+        - 2\mathbf{X}^T\mathbf{y} + 2 \mathbf{X}^T \mathbf{X} \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
         &= \mathbf{0}\\
-        2 X^T X \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
-        &= 2X^T\mathbf{y}\\
-        (X^T X + \lambda \mathbf{I}) \boldsymbol{\beta}
-        &= X^T\mathbf{y}\\
+        2 \mathbf{X}^T \mathbf{X} \boldsymbol{\beta} + \lambda 2 \boldsymbol{\beta} 
+        &= 2\mathbf{X}^T\mathbf{y}\\
+        (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I}) \boldsymbol{\beta}
+        &= \mathbf{X}^T\mathbf{y}\\
         \hat{\boldsymbol{\beta}}
-        &= (X^T X + \lambda \mathbf{I})^{-1}(X^T\mathbf{y})
+        &= (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}(\mathbf{X}^T\mathbf{y})
     \end{align*}
 \end{answerbox}
 ```
@@ -274,7 +274,7 @@ c.  Compare your answer to the standard linear regression estimator. Under what 
 
 ```{=latex}
 \begin{answerbox}
-    From the lectures we know that:
+    From the lectures we found that:
     \[
         \hat{\boldsymbol{\beta}}_{\text{OLS}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
     \]
@@ -293,8 +293,32 @@ d.  Using the same `BostonHousing` dataset and the same set of variables from th
 
 [^6]: Note that `glmnet`'s `lambda` parameter corresponds to your $\frac{\lambda}{N}$, where $N$ is the number of rows of your data. Also, your estimates may differ slightly from `glmnet`'s, at around the second decimal place. That's alright; this is likely due to `glmnet`'s optimization algorithm. It's computationally expensive to invert large matrices so `glmnet` is probably taking some more efficient but (slightly) less precise approach.
 
-```{r, echo = TRUE, include = TRUE}
+$\hat{\boldsymbol{\beta}}_{\text{ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}(\mathbf{X}^T\mathbf{y})$
 
+```{r, echo = TRUE, include = TRUE}
+library(Matrix)
+library(glmnet)
+library(mlbench)
+data(BostonHousing)
+
+# Design matrix 
+X_raw <- as.matrix(BostonHousing[,c("crim", "chas", "nox", "dis", "ptratio", "rad")], 
+               ncol = 6, 
+               byrow = TRUE)
+X_raw <- apply(X_raw, 2, as.numeric)
+
+X_stan <- scale(X_raw)
+X <- cbind(1, X_stan)
+
+# Response vector
+y <- BostonHousing$medv
+
+# Finding Beta
+lambda <- 1 #idk
+I <- diag(ncol(X))
+
+beta <- solve(t(X) %*% X + lambda*I) %*% (t(X) %*% y)
+beta
 ```
 
 e.  For the sequence of lambdas below, make a plot with `lambda_seq` on the $x$-axis (increasing from 0 to 100) and the estimated $\beta$ coefficients for per capita crime rate in the town (in blue), proximity to the Charles River (in red), and nitric oxides concentration (in green) on the $y$-axis. Use `geom_line` to plot the coefficients and add a black horizontal line at $y=0$. Label your axes and include a legend.
