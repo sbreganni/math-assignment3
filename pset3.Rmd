@@ -183,7 +183,12 @@ for(i in vec){
 }
 ```
 
-`{{=latex}}  \begin{answerbox}  As can be seen above, it takes around 10 principal components to have a reasonable degree of confidence that we are indeed looking at a cat. \end{answerbox}`
+
+```{=latex} 
+\begin{answerbox}  
+As can be seen above, it takes around 10 principal components to have a reasonable degree of confidence that we are indeed looking at a cat. 
+\end{answerbox}
+```
 
 g.  Using what you learned from parts (b), (d), and (f) above, explain why Lev requires more principal components to be minimally represented than Laszlo, despite being equally beautiful.
 
@@ -366,27 +371,23 @@ f.  Discussion:
 
 -   Based on your plot above, explain why ridge is one of a number of so-called "shrinkage" estimators.
 
-    ```{=latex}
-    \begin{answerbox}
-    Your boxed content goes here.
-    You can put text, Markdown, equations, etc.
-    \end{answerbox}
-    ```
-
 -   Tie this back to the constrained optimization problem you solved to obtain the ridge regression $\hat{\beta}$. Can you see how a larger value of $\lambda$ (or equivalently a small value of $s$) corresponds to greater shrinkage?
-
-    ```{=latex}
-    \begin{answerbox}
-    Your boxed content goes here.
-    You can put text, Markdown, equations, etc.
-    \end{answerbox}
-    ```
 
 -   You will learn more about this class of estimators and their virtues next semester, but do you have any intuitions as to when and why they might be desirable?
 
-    ```{=latex}
-    \begin{answerbox}
-    Your boxed content goes here.
-    You can put text, Markdown, equations, etc.
-    \end{answerbox}
-    ```
+```{=latex}
+\begin{answerbox}
+
+From the graph we can observe how, as $\lambda$ grows, the coefficient estimates become closer and closer to 0. This is why ridge belongs to the family of “shrinkage” estimators: the penalty term forces the estimated coefficients to shrink in magnitude. The larger the value of $\lambda$, the stronger this pull toward zero, and thus the greater the shrinkage.
+
+This shrinking behaviour connects back to the constrained optimization problem: in the constrained form, ridge regression minimizes the sum of squared residuals subject to the requirement that the coefficients lie within an $L_2$ ball:
+\[
+\|\beta\|_2^2 \le s.
+\]
+A small value of $s$ means the feasible region for $\beta$ is tight; when $s$ is small, the optimizer is not allowed to choose a large coefficient vector even if doing so would achieve a smaller residual sum of squares. In the Lagrangian form, this corresponds to a large value of $\lambda$. Thus, \emph{large $\lambda$ (equivalently, small $s$) imposes a strong restriction on the overall size of the coefficient vector}, which forces the solution to move closer to zero.
+
+
+STILL NEED TO ADD INTUITION FOR THE LAST PART <3
+
+\end{answerbox}
+```
