@@ -46,8 +46,22 @@ dim(vc_lev)
 ```
 
 ```{=latex}
-\begin{answerbox} 
-The dimensionality of this covariance is m x m, since the covariance matrix pairs the covariance of each column against the     other, and since there are 200 columns (and 150 rows), then we end up with a 200 x 200 matrix. 
+\begin{answerbox}
+The covariance matrix has dimensions \(200 \times 200\) because we are capturing the covariance between pairs of features, not observations. The covariance matrix is defined by:
+
+
+\[ S = \frac{1}{n} X^\top X \]
+
+
+In our case, the dimensions are:
+
+
+\[
+X^\top \in \mathbb{R}^{200 \times 150}, \quad X \in \mathbb{R}^{150 \times 200} \Rightarrow X^\top X \in \mathbb{R}^{200 \times 200}
+\]
+
+
+Thus, the product \(X^\top X\) results in a \(200 \times 200\) covariance matrix.
 \end{answerbox}
 ```
 
@@ -70,8 +84,11 @@ total_variance_blue_laszlo <- sum(diag(vc_laszlo))
 ```
 
 ```{=latex}
-\begin{answerbox} 
-The total variance of the blue matrix for the picture of Lev is `r total_variance_blue_lev`, while for the picture of Laszlo it is `r total_variance_blue_laszlo`. 
+\begin{answerbox}
+The total variance of blue for Lev the cat is \(9.441\), while for Laszlo (calculated using lab script), it is \(13.1398\).
+
+I infer that the blue band in Laszlo’s image carries more variability (greater contrast in pixel values) compared to Lev’s image.
+
 \end{answerbox}
 ```
 
@@ -129,8 +146,10 @@ p2 <- fviz_eig(b_pca_laszlo, barfill = "blue", ncp = 5, addlabels = TRUE) +
 ```
 
 ```{=latex}
-\begin{answerbox} 
-The proportion of the total variance captured by the first principal component of the blue matrix is for lev `r  prop_explained_by_first_PC_lev`, while for laszlo it is `r prop_explained_by_first_PC_laszlo`. 
+\begin{answerbox}
+The proportion of variance explained by Lev's first principal component is \(66.90\%\), while for Laszlo (calculated using the lab script) it was \(82.3\%\).
+
+This indicates that Laszlo's first principal component in the blue band captures more variability (i.e., more information) compared to that of Lev.
 \end{answerbox}
 ```
 
@@ -194,15 +213,11 @@ As can be seen above, it takes around 10 principal components to have a reasonab
 g.  Using what you learned from parts (b), (d), and (f) above, explain why Lev requires more principal components to be minimally represented than Laszlo, despite being equally beautiful.
 
 ```{=latex}
-    \begin{answerbox}
-    While indeed equally beautiful, Lev requires more principal components because the variance is more equally spread out across the different principal components (though, of course, the first is still much higher than the remaining). Relatively, choosing just a few principal components in the case of Lev yields only a smaller proportion of the total pixel variance. While Laszlo has higher total variance in the case of the blue matrix, it is more relatively more concentrated in the first principal component. As such, Laszlo requires fewer principal components to capture his beauty.
-    \end{answerbox}
-```
+   \begin{answerbox}
+Lev needs more principal components to be represented because his image spreads the variance across many directions. In part (b) we saw his blue band had lower total variance than Laszlo’s, and in part (d) his first PC only explained about \(66.9\%\) compared to Laszlo’s \(87.6\%\). So when we tried to reconstruct (part f), Lev only looked like a cat after around 10–20 PCs, while Laszlo was recognizable with fewer. Basically, Laszlo’s image is easier to compress since most of the information is in the first component, but Lev’s takes more PCs to capture the details.
 
-```{=latex}
-    \begin{answerbox}
-    Lev requires more principal components to be minimally represented than Laszlo because Lev's image has more complex variation in color and texture across the pixels, as seen in the higher total variance of the blue matrix and in the distribution of variance across the principal components. Each additional principal component captures some of this extra variation, so more PCs are needed to start recognizing Lev as a cat.
-    \end{answerbox}
+And, despite all this math, both Lev and Laszlo are equally beautiful cats; PCA just tells us about pixel variance, not about their actual charm.
+\end{answerbox}
 ```
 
 ## 2. Penalized Regression
