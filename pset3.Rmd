@@ -343,8 +343,6 @@ beta
 
 fit <- glmnet(X, y, alpha = 0, lambda = lambda/nrow(X))
 coef(fit)
-
-# They are very similar but I really don't understand if I did this step correctly - maybe you can ask jackson on monday?
 ```
 
 e.  For the sequence of lambdas below, make a plot with `lambda_seq` on the $x$-axis (increasing from 0 to 100) and the estimated $\beta$ coefficients for per capita crime rate in the town (in blue), proximity to the Charles River (in red), and nitric oxides concentration (in green) on the $y$-axis. Use `geom_line` to plot the coefficients and add a black horizontal line at $y=0$. Label your axes and include a legend.
